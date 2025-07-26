@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Scrapbook</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+<style>
+    body {
+        background: #f8f8f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        overflow: hidden;
+    }
+    #container {
+        position: relative;
+        width: 90%;
+        height: 90vh;
+        max-width: 1000px;
+    }
+    #flipbook {
+        width: 100%;
+        height: 100%;
+    }
+    #flipbook .page {
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    #flipbook img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        border-radius: 50%;
+        z-index: 1000;
+    }
+    .nav-btn:hover {
+        background: rgba(0, 0, 0, 0.8);
+    }
+    #prev-btn { left: -60px; }
+    #next-btn { right: -60px; }
+    #fullscreen-btn {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px 15px;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    @media(max-width: 768px){
+        #prev-btn { left: 10px; }
+        #next-btn { right: 10px; }
+    }
+</style>
+</head>
+<body>
+
+<div id="container">
+    <div id="flipbook">
+        <div class="page"><img src="https://i.ibb.co/wZWXLbY6/1.jpg" alt="Page 1"></div>
+        <div class="page"><img src="https://i.ibb.co/G3TTpkvS/2.jpg" alt="Page 2"></div>
+        <div class="page"><img src="https://i.ibb.co/N2rVjrcv/3.jpg" alt="Page 3"></div>
+        <div class="page"><img src="https://i.ibb.co/ynLzv6f2/4.jpg" alt="Page 4"></div>
+        <div class="page"><img src="https://i.ibb.co/xSvkkmnk/5.jpg" alt="Page 5"></div>
+        <div class="page"><img src="https://i.ibb.co/FbjN5gYp/6.jpg" alt="Page 6"></div>
+        <div class="page"><img src="https://i.ibb.co/R4NYBJxd/7.jpg" alt="Page 7"></div>
+        <div class="page"><img src="https://i.ibb.co/Z1dgWmJc/8.jpg" alt="Page 8"></div>
+        <div class="page"><img src="https://i.ibb.co/qT1Yw04/9.jpg" alt="Page 9"></div>
+        <div class="page"><img src="https://i.ibb.co/XZgdJpCf/10.jpg" alt="Page 10"></div>
+        <div class="page"><img src="https://i.ibb.co/cKnzff76/11.jpg" alt="Page 11"></div>
+        <div class="page"><img src="https://i.ibb.co/MXB5tnb/12.jpg" alt="Page 12"></div>
+        <div class="page"><img src="https://i.ibb.co/83YH3gC/13.jpg" alt="Page 13"></div>
+        <div class="page"><img src="https://i.ibb.co/Q3mVXV6B/14.jpg" alt="Page 14"></div>
+        <div class="page"><img src="https://i.ibb.co/GQgb4sYN/15.jpg" alt="Page 15"></div>
+        <div class="page"><img src="https://i.ibb.co/wrMns3gc/16.jpg" alt="Page 16"></div>
+    </div>
+    <button class="nav-btn" id="prev-btn">&#10094;</button>
+    <button class="nav-btn" id="next-btn">&#10095;</button>
+    <div id="fullscreen-btn">Fullscreen</div>
+</div>
+
+<!-- jQuery and Turn.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
+<script>
+    function initFlipbook() {
+        let displayMode = window.innerWidth < 768 ? 'single' : 'double';
+
+        $("#flipbook").turn({
+            width: displayMode === 'single' ? 400 : 800,
+            height: displayMode === 'single' ? 600 : 600,
+            autoCenter: true,
+            display: displayMode,
+            acceleration: true,
+            gradients: true
+        });
+    }
+
+    initFlipbook();
+
+    window.addEventListener("resize", function(){
+        $("#flipbook").turn("destroy");
+        initFlipbook();
+    });
+
+    document.getElementById("next-btn").addEventListener("click", function(){
+        $("#flipbook").turn("next");
+    });
+    document.getElementById("prev-btn").addEventListener("click", function(){
+        $("#flipbook").turn("previous");
+    });
+
+    document.getElementById("fullscreen-btn").addEventListener("click", function(){
+        let elem = document.getElementById("container");
+        if (!document.fullscreenElement) {
+            elem.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    });
+</script>
+
+</body>
+</html>
